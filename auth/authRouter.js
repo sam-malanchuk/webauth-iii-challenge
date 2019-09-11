@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const bcrypt = require('bcryptjs');
 
 const Users = require('../users/usersModel.js');
 
@@ -8,6 +9,7 @@ router.get('/', (req, res) => {
 
 router.post('/register', (req, res) => {
   const user = req.body;
+  user.password = bcrypt.hashSync(user.password, 6);
 
   Users.insert(user)
     .then(status => {
@@ -19,6 +21,22 @@ router.post('/register', (req, res) => {
     })
     .catch(err => {
       res.status(500).json({ message: "Account could not be created" });
+    });
+});
+
+router.post('/login', (req, res) => {
+  const { username, password } = req.body;
+
+  Users.findBy({username}).first()
+    .then(user => {
+      if(user && bcrypt.compareSync(password, user.password)) {
+        res.status(200).json({ message: `You are logged in!`});
+      } else {
+        res.status(401).json({ message: "Username or password incorrect" });
+      }
+    })
+    .catch(err => {
+      res.status(500).json({ message: "Server login error" });
     });
 });
 

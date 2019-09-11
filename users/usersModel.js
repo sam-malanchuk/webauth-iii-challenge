@@ -12,7 +12,7 @@ function selectAll() {
 }
 
 function findBy(filter) {
-
+  return db('users').where(filter);
 }
 
 function insert(user) {
