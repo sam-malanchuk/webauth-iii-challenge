@@ -16,7 +16,7 @@ function findBy(filter) {
 }
 
 function insert(user) {
-
+  return db('users').insert(user);
 }
 
 function findById(id) {
