@@ -6,4 +6,6 @@ router.get('/', (req, res) => {
   res.json({ message: "Hey, from inside the auth Router!"});
 });
 
+
+
 module.exports = router;
