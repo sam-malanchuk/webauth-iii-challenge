@@ -23,6 +23,7 @@ async function insert(user) {
 
 function findById(id) {
   return db('users')
+    .select('id', 'username', 'department')
     .where({ id })
     .first();
 }
